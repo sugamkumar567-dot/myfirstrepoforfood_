@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock & Alarm</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #172033;
+      color: white;
+      padding: 60px 15px;
+    }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      padding: 30px;
+      background: #26344f;
+      border-radius: 15px;
+    }
+    #clock {
+      font-size: 42px;
+      margin: 25px 0;
+    }
+    input, button {
+      padding: 10px;
+      margin: 8px;
+      border-radius: 6px;
+      border: none;
+    }
+    button {
+      cursor: pointer;
+      background: #37c995;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Digital Clock</h1>
+    <div id="clock">00:00:00</div>
+    <h2>Set Alarm</h2>
+    <input type="time" id="alarmTime" required>
+    <button onclick="setAlarm()">Set Alarm</button>
+    <p id="message">No alarm set</p>
+  </div>
+
+  <script>
+    let alarmTime = "";
+    let alarmTriggered = false;
+
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString();
+      document.getElementById("clock").textContent = time;
+
+      const currentTime =
+        String(now.getHours()).padStart(2, "0") + ":" +
+        String(now.getMinutes()).padStart(2, "0");
+
+      if (alarmTime && currentTime === alarmTime && !alarmTriggered) {
+        alarmTriggered = true;
+        alert("Alarm! Time to wake up!");
+      }
+    }
+
+    function setAlarm() {
+      alarmTime = document.getElementById("alarmTime").value;
+      alarmTriggered = false;
+
+      document.getElementById("message").textContent =
+        alarmTime ? "Alarm set for " + alarmTime : "Please select a time";
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
